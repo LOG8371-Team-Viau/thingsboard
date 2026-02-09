@@ -66,7 +66,7 @@ pipeline {
                     def started = false
                     for (int i = 0; i < maxAttempts; i++) {
                         sleep(time: 15, unit: 'SECONDS')
-                        def status = bat(script: 'curl.exe -sf http://localhost:9090/login', returnStatus: true)
+                        def status = bat(script: 'curl.exe -sf http://localhost:8085/login', returnStatus: true)
                         if (status == 0) {
                             echo 'ThingsBoard started successfully!'
                             started = true
