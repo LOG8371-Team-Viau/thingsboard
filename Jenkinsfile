@@ -25,6 +25,10 @@ pipeline {
         MAVEN_OPTS = '-Xmx1024m'
     }
 
+    triggers {
+        githubPush()
+    }
+
     stages {
 
         stage('Checkout') {
