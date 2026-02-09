@@ -17,7 +17,7 @@ services:
   thingsboard-ce:
     image: "thingsboard/tb-node:4.3.0.1"
     ports:
-      - "8080:8080"
+      - "9090:8080"
       - "7070:7070"
       - "1883:1883"
     logging:
