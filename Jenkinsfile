@@ -79,11 +79,26 @@ pipeline {
                     }
                 }
             }
-            post {
-                always {
-                    script {
-                        bat(script: 'docker compose -f docker-compose-ci.yml down -v', returnStatus: true)
-                    }
+        }
+
+        stage('Demo - Access ThingsBoard') {
+            steps {
+                echo '========================================================'
+                echo 'ThingsBoard is running! Open your browser and go to:'
+                echo 'http://localhost:8085'
+                echo ''
+                echo 'Default credentials:'
+                echo '  Tenant Admin: tenant@thingsboard.org / tenant'
+                echo '  System Admin: sysadmin@thingsboard.org / sysadmin'
+                echo '========================================================'
+                input message: 'ThingsBoard is running on http://localhost:8085. Click "Proceed" when you are done with the demo to shut it down.'
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                script {
+                    bat(script: 'docker compose -f docker-compose-ci.yml down -v', returnStatus: true)
                 }
             }
         }
@@ -91,6 +106,10 @@ pipeline {
 
     post {
         always {
+            script {
+                // Ensure containers are stopped even if pipeline is aborted
+                bat(script: 'docker compose -f docker-compose-ci.yml down -v', returnStatus: true)
+            }
             cleanWs()
         }
     }
