@@ -84,7 +84,7 @@ pipeline {
         stage('Demo - Access ThingsBoard') {
             steps {
                 echo '---------------------------------------------------------'
-                echo 'ThingsBoard is running! Open your browser and go to:'
+                echo 'ThingsBoard is running!! Open your browser and go to:'
                 echo 'http://localhost:8085'
                 echo ''
                 echo 'Default credentials:'
