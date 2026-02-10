@@ -47,11 +47,7 @@ pipeline {
             steps {
                 bat 'mvn test -pl common/data,rule-engine/rule-engine-components'
             }
-            post {
-                always {
-                    junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
-                }
-            }
+
         }
 
         stage('Launch ThingsBoard') {
