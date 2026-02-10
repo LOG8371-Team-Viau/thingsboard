@@ -83,15 +83,28 @@ pipeline {
 
         stage('Demo - Access ThingsBoard') {
             steps {
-                echo '========================================================'
+                echo '---------------------------------------------------------'
                 echo 'ThingsBoard is running! Open your browser and go to:'
                 echo 'http://localhost:8085'
                 echo ''
                 echo 'Default credentials:'
                 echo '  Tenant Admin: tenant@thingsboard.org / tenant'
                 echo '  System Admin: sysadmin@thingsboard.org / sysadmin'
-                echo '========================================================'
-                input message: 'ThingsBoard is running on http://localhost:8085. Click "Proceed" when you are done with the demo to shut it down.'
+                echo '---------------------------------------------------------'
+                script {
+                    try {
+                        timeout(time: 2, unit: 'MINUTES') {
+                            input message: 'ThingsBoard is running on http://localhost:8085. Click "Proceed" when you are done with the demo to shut it down.'
+                        }
+                    } catch (err) {
+                        def user = err.getCauses()[0]['user']
+                        if('SYSTEM' == user.toString()) { // timeout
+                            echo 'Demo time expired. Proceeding to cleanup...'
+                        } else {
+                            throw err
+                        }
+                    }
+                }
             }
         }
 
