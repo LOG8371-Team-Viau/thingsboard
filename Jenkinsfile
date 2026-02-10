@@ -39,13 +39,13 @@ pipeline {
 
         stage('Compile') {
             steps {
-                bat 'mvn install -DskipTests -pl common/data,rule-engine/rule-engine-components -am'
+                bat 'mvn install -DskipTests -pl common/data,common/util,rule-engine/rule-engine-components,edqs -am'
             }
         }
 
         stage('Unit Tests') {
             steps {
-                bat 'mvn test -pl common/data,rule-engine/rule-engine-components'
+                bat 'mvn test -pl common/data,common/util,rule-engine/rule-engine-components,edqs'
             }
 
         }
@@ -93,7 +93,7 @@ pipeline {
                 echo '---------------------------------------------------------'
                 script {
                     try {
-                        timeout(time: 2, unit: 'MINUTES') {
+                        timeout(time: 5, unit: 'MINUTES') {
                             input message: 'ThingsBoard is running on http://localhost:8085. Click "Proceed" when you are done with the demo to shut it down.'
                         }
                     } catch (err) {
